@@ -1,0 +1,381 @@
+C:\Users\Sudhe\workspace\sample\src\
+22/05/2022
+=================
+
+Install JDK 1.8
+
+Install Eclipse 
+
+Hello world program using java
+
+23/5/2022
+===============
+Basic program
+variable
+instance variable
+static variable
+method local variable
+
+datatypes primitive and non-primitive
+
+
+24/05/2022
+=============
+opeartors // unary opeartor
+control statements
+
+
+25/05/2022
+==========
+
+object
+class
+method
+constructor
+static keyword
+this keyword
+
+=========
+
+26/05/2022
+==========
+Inheritance -single , multi level, hierachy
+Method overloading
+Method overriding
+
+30/05/2022
+===========
+Final-variable,method,class
+super-variable,method,constructor
+
+31/05/2022
+========
+interface- mutliple inheritance
+package
+access modifiers, private,default,protected,public 
+java arrays
+
+
+01/06/2022
+================
+wrapper class
+String Java
+
+02/06/2022
+========================
+Exception handling
+--throws
+--user defined exception
+
+Inner class
+member inner class
+
+05/06/2022
+============================
+anonymous inner class
+local inner class
+static nested class
+Java Input/Output
+===========================================
+
+
+Java Collection
+==========
+List
+Set
+Map
+
+Thread:
+--synchronization
+--method, block,class
+
+Date Functions: 
+============
+LocalDate,
+LocalTime,
+LocalDateTime
+Date (classical)
+
+06/08/2022
+=========================
+LambaExpression,
+ Streams (1.8 java)
+install my sql
+
+
+
+
+Advanced Java
+=================
+JDBC
+Create=insert// update//select//delete
+
+Servlet(html code inside java) - web technology -- tomcat  8.5/ oxgyen
+C-create //save
+R- Read // select all
+U - get id//update
+D - Delete
+
+
+
+06/15/2022
+==================
+Junit
+==============
+
+06/16/2022
+===============
+Servlet program login and logout
+
+
+19/06/2022
+-------------
+
+JSP( java inside html)
+C -create/save
+R -view /read/select
+U - update
+D -delete
+-----------------------------------
+Java mail api
+Design pattern
+Maven : Build Tool 
+
+21/09/2022
+-----------------------
+Spring 
+:Dependency Injection :
+Installed Spring tool suite
+constructor Injection
+Setter Injection
+Autowire
+
+example for autowire byType,cons,no auto
+
+
+22/09/2022
+======================
+Spring Boot
+Hello world using Spring Boot
+CRUD- Create/read/update/delete
+SpringDataJPA(Hibernate Concept) (replacement legacy JDBC)
+Controller ->Service ->Repo ->Entity ->DB
+In Spring boot we will expose the APIS
+http://localhost:9090/hello - GET API
+
+27/06/2022
+=============
+
+CRUD operation in the Spring Boot
+Rest api :
+=============
+
+
+Get API : http://localhost:8080/getEmployees
+
+Post API :http://localhost:8080/employee
+ {
+        "employeeId": 124,
+        "employeeName": "Ram"
+    }
+
+
+Put API
+
+http://localhost:8080/updateEmployee
+
+ {
+        "employeeId": 124,
+        "employeeName": "Ram"
+  }
+
+Delete API :
+
+http://localhost:8080/deleteEmployee/123
+
+==============================================================================
+
+
+28/06/2022
+==================
+
+Service Layer::
+===============
+CRUD
+
+29/06/2022
+===================
+Repo + entity
+
+Save
+Get
+Update
+Delete
+
+Controller service Repo Entity Database(Mysql)
+
+Intergrate all the API to UI layer
+
+React JS
+===========
+visual Studio Code
+Node JS
+
+
+Integrate Spring boot api with react js
+
+
+30/09/2022
+=================
+GET API,
+POST API,
+
+PUT API,
+DELETE API to React JS
+
+
+
+04/07/2022
+========================
+Maven/Gradle
+Design pattern-- Factory
+Java Email API
+Streams -- Java 1.8
+Git
+----------------------------------
+git clone
+git status
+git add .
+git commit -m "text msg"
+git push
+
+----------------------------------
+
+Enter the name of plan for which the bill will be generated: DOMESTICPLAN
+Enter the number of units for bill will be calculated: 100
+Bill amount for DOMESTICPLAN of  100 units is: 350.0
+
+Enter the name of plan for which the bill will be generated: COMMERCIALPLAN
+Enter the number of units for bill will be calculated: 100
+Bill amount for COMMERCIALPLAN of  100 units is: 750.0
+
+Enter the name of plan for which the bill will be generated: INSTITUTIONALPLAN
+Enter the number of units for bill will be calculated: 100
+Bill amount for INSTITUTIONALPLAN of  100 units is: 550.0
+
+
+ import React from 'react';
+import axios from 'axios';
+
+export default class Apicall extends React.Component {
+  state = {
+    id: '',
+    employeeName : '',
+    emp : []
+  }
+
+  componentDidMount() {
+    //get method
+    axios.get("http://localhost:8080/getEmployee").then((res)=>{
+
+        console.log(res.data);
+        const employee = res.data;
+        this.setState({emp : employee})
+
+    })
+ 
+  }
+
+  handleIdChange = event => {
+    this.setState({ id: event.target.value });
+    console.log("id",this.state.id);
+  }
+  handleNameChange =event => {
+    this.setState({ employeeName: event.target.value });
+    console.log("name",this.state.employeeName);
+  }
+
+//Delete Api
+  handleDelete = event => {
+    event.preventDefault();
+    axios.delete(`http://localhost:8080/deleteEmployee/${this.state.id}`).then((res)=>{
+          console.log(res);
+            axios.get(`http://localhost:8080/getEmployees`)
+            .then(res => {
+            const employee = res.data;
+            this.setState({emp:  employee });
+          })
+      })                
+      .catch((err)=>{
+        console.log(err)
+      })
+      this.state.id=""
+    }    
+   
+
+  //Post api
+    handleAdd = event => {
+    axios.post("http://localhost:8080/saveEmployee",{
+      "id": this.state.id,
+      "employeeName": this.state.employeeName
+
+    }).then(res=>{
+      //console.log(this.state.id)
+      axios.get(`http://localhost:8080/getEmployee`)
+              .then(res => {
+              const employee = res.data;
+              this.setState({emp:  employee });
+            })          
+    })  
+  }
+
+  //put api
+  handleUpdate = event => {
+    axios.put("http://localhost:8080/updateEmployee",{
+      "id": this.state.id,
+      "employeeName": this.state.employeeName
+    }).then(res=>{
+      axios.get(`http://localhost:8080/getEmployee`)
+              .then(res => {
+              const employee = res.data;
+              this.setState({emp:  employee });
+            })          
+    })  
+  }
+
+ 
+  render() {
+    return (
+      <div>
+        <ul>
+        { this.state.emp.map((d,i) =>
+         <li>id : {d.id} empname : {d.employeeName}</li>)
+        }
+      </ul>      
+          <label>
+            Emp ID :
+            <input type="text"  name="id" onChange={this.handleIdChange} /><br></br>
+            Emp Name :
+            <input type="text" name="employeeName" onChange ={this.handleNameChange}/>
+          </label><br></br>
+          <button onClick={this.handleAdd}>Add</button>    
+          <button onClick={this.handleDelete}>Delete</button>
+          <button onClick={this.handleUpdate}>Update</button>
+      </div>
+    )
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
